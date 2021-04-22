@@ -3,17 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Загадки-Отгадайки</title>
+    <script src="puzzles.js"></script>
+    <script src="libraries/react.development.js"></script>
+    <script src="libraries/react-dom.development.js"></script>
+    <script src="libraries/babel.min.js"></script>
+    <script type="text/babel">
+        function App() {
+            function randomPuzzle(max) {
+                return Math.floor(Math.random() * (max - 0)) + 0;
+            }
+
+            const [randomIndex, setRandomIndex] =  React.useState(randomPuzzle(puzzles.length));
+
+            return <>
+                <h1>Загадка:</h1>
+
+                <div id="FieldOfPuzzles">
+                    <h2 id="Puzzle">
+                        {puzzles[randomIndex].text}
+                    </h2>
+                </div>
+                <div id="FieldOfAnswer">
+                    <input id="Answer" type="text" size="60" />
+                </div>
+                <div id="NextButton">
+                    <button onClick={ ()=> setRandomIndex(randomPuzzle(puzzles.length)) }>Следующая загадка</button>
+
+                </div>
+            </>;
+        }
+
+        ReactDOM.render(<App/>, document.getElementById('root'));
+    </script>
 </head>
 <body>
-<h1>Загадка:</h1>
-<div class="FieldOfPuzzles">
-    <h2 class="Puzzle">Зимой и летом одним цветом</h2>
-</div>
-<div class="FieldOfAnswer">
-    <input class="Answer" type="text" size="60">
-</div>
-<div class="NextButton">
-    <button>Следующая загадка</button>
-</div>
+<div id="root"></div>
 </body>
 </html>
