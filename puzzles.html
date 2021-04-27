@@ -9,11 +9,28 @@
     <script src="libraries/babel.min.js"></script>
     <script type="text/babel">
         function App() {
+            //Тут мы берём рандомное значение из длины массива
+            const [randomIndex, setRandomIndex] =  React.useState(randomPuzzle(puzzles.length));
+            //Тут мы устанавливаем значение для поля ввода
+            const [valueInput, setValue] = React.useState('');
+
+            //Это рендерит наше содержимое ввода, если оно меняется
+            const onChange = (event) => {
+                setValue(event.target.value);
+            };
+
+            //Функция задания рандома
             function randomPuzzle(max) {
                 return Math.floor(Math.random() * (max - 0)) + 0;
             }
 
-            const [randomIndex, setRandomIndex] =  React.useState(randomPuzzle(puzzles.length));
+            function testCorrect(input, answers){
+                if(answers.includes(input)){
+                    return "Правильно!"
+                } else {
+                    return "Не верно!"
+                }
+            }
 
             return <>
                 <h1>Загадка:</h1>
@@ -24,11 +41,15 @@
                     </h2>
                 </div>
                 <div id="FieldOfAnswer">
-                    <input id="Answer" type="text" size="60" />
+                    <input id="Answer" type="text" size="60" value={valueInput} onChange={onChange} />
                 </div>
-                <div id="NextButton">
-                    <button onClick={ ()=> setRandomIndex(randomPuzzle(puzzles.length)) }>Следующая загадка</button>
-
+                <div className="buttons">
+                    <div>
+                        <button id="testCorrectly" onClick={ ()=> alert(testCorrect(valueInput, puzzles[randomIndex].answers)) } >Проверка</button>
+                    </div>
+                    <div id="NextButton">
+                        <button onClick={ ()=> setRandomIndex(randomPuzzle(puzzles.length)) }>Следующая загадка</button>
+                    </div>
                 </div>
             </>;
         }
